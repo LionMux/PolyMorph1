@@ -1,6 +1,6 @@
 ﻿public class AirConditioner
 {
-    private bool _statusOfConditioner = false;
+    public bool _statusOfConditioner = false;
 
     public void TurnOnAirConditioner()
     {
@@ -14,18 +14,12 @@
         Console.WriteLine("Кондиционер выключен");
     }
 
-
-    public void CheckForBatterySave(bool emergencyStopOfConditioner)
+    public void CheckForBatterySave()
     {
-        if (emergencyStopOfConditioner == true && _statusOfConditioner == true)
+        if (_statusOfConditioner == true)
         {
             Console.WriteLine("Так как заряд батареи ниже 20%, то был отключен кондиционер");
-            TurnOffAirConditioner();
-        }
-        else if (emergencyStopOfConditioner == false && _statusOfConditioner == true)
-        {
-            Console.WriteLine("Включен кондиционер");
-            TurnOnAirConditioner();
+            _statusOfConditioner = false;
         }
     }
 }

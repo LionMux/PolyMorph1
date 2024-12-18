@@ -9,14 +9,5 @@
             Speed *= 0.7d;
         }
     }
-    //public double CalculateDistance(int currentValueOfField, int distance)
-    //{
-    //    var ValueOfField20 = (currentValueOfField - CalculateValueOfConsField(distance)) / 100;
-    //    if (ValueOfField20 < 20)
-    //    {
-    //        return distance * 0.3;
-    //    }
-    //    else return 0;
-    //}
 
 }

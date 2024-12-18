@@ -1,5 +1,5 @@
 ﻿internal class ElectroCar : Transport
-{ 
+{
     private readonly Battery _battery;
     private readonly ElectricEngine _engine;
     private bool _turnConditioner;
@@ -16,7 +16,7 @@
             {
                 AirConditioner.TurnOnAirConditioner();
             }
-            else
+            else if (AirConditioner._statusOfConditioner)
             {
                 AirConditioner.TurnOffAirConditioner();
             }
@@ -24,7 +24,7 @@
     }
     public int NumberOfDoors { get; }
     public AirConditioner AirConditioner { get; }
-   
+
     protected override EnergySourse EnergySourse => _battery;
     protected override EngineBase Engine => _engine;
 
@@ -36,6 +36,7 @@
         _battery = new Battery(batteryCapacity);
         _engine = new ElectricEngine(power, energyCons);
         TurnConditioner = false;
+        _battery.OnStopForBattarySafe += AirConditioner.CheckForBatterySave;
     }
 
     public void TurnOnConditioner()
@@ -52,7 +53,7 @@
             return;
         }
         var requiredFuelCons = Engine.CalculateValueOfConsField(distance);
-        double traveledDistance = _engine.GetMaxDistance(distance, _battery.CurrentValueOfField); 
+        double traveledDistance = _engine.GetMaxDistance(distance, _battery.CurrentValueOfField);
         EnergySourse.DecreaseFuel(requiredFuelCons);
 
         if (EnergySourse.CurrentValueOfField >= requiredFuelCons)
@@ -65,12 +66,12 @@
             Console.WriteLine($"{typeof(ElectroCar)} проехал {traveledDistance} км со средней скоростью {Engine.Speed} км/ч и остановился, так как потратил все топливо.");
             EnergySourse.SetZeroFuel(); // все топливо израсходовано
         }
+        //AirConditioner.CheckForBatterySave();
 
-        if (_battery.EmergencyStopForBatterySave)
-        {
-            _engine.DropPower(EnergySourse.CurrentValueOfField, EnergySourse.MaxValue);
-        }
-        AirConditioner.CheckForBatterySave(_battery.EmergencyStopForBatterySave);
+        //if (_battery.EmergencyStopForBatterySave)
+        //{
+        //    _engine.DropPower(EnergySourse.CurrentValueOfField, EnergySourse.MaxValue);
+        //}
     }
 
     public override string ToString()
